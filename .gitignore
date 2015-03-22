@@ -1,0 +1,7 @@
+db.sqlite3
+debugapp/*
+testmedia/*
+teststatic/index.html
+*.pyc
+__pycache__
+nohup.out
