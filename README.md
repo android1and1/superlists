@@ -7,3 +7,13 @@
 # this project is the last test of real project --- mobilesite.
 
 # 2015-3  d.y.j.
+
+
+# now,almost every line every word be made by 'Ultra Book' host,it is running via windows7.
+
+currently branches:
+1) tokyo aws instance ,ip = 54.199.137.210(~/ubuntu/superlists)
+2) ultra book(win7) git-bash-directory = ~/tempP/DjangoThing/superlists.
+all of them can pull and push,it is convience for development.
+
+all is test now.
