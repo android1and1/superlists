@@ -13,4 +13,6 @@ def home_page(request):
 	#4th 
 	#return HttpResponse('<html><title>To-Do lists</title>')
 	# 5th
-	return HttpResponse('<html><title>To-Do lists</title></html>')
+#	return HttpResponse('<html><title>To-Do lists</title></html>')
+	# 6th
+	return render(request,'home.html')

@@ -67,6 +67,3 @@ if __name__ == '__main__':
 	# original is "unittest.main(warnings='ignore')"
 	#unittest.main()
 	unittest.main(warnings='ignore')
-
-
-
