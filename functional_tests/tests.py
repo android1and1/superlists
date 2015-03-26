@@ -1,32 +1,21 @@
 # not run this in acturely server! it is for client(installed python3 and selenium)
-# raw functional test.
+# client must readied a test-professial tool,so server can 'from selenium import webdriver'.
 
-#from selenium import webdriver 
-
-#browser = webdriver.Firefox()
-#
-## Edith has heard about a cool new online to-do app.....
-#
 ## because nginx+gunicorn involeds too many things(static,media,etc..)
 ## so i decided use django's runserver first.
 ## browser.get('http://54.199.137.210')
 #browser.get('http://54.199.137.210:8080')
-#
-##assert 'Django' in browser.title
-#assert 'To-Do' in browser.title
-## gracefully close firefox.exe.
-#browser.quit()
+
+from django.test import LiveServerTestCase
 
 from selenium import webdriver 
 # now a new change:import builin module:unitest
-import unittest
-# before post form.
 import time
-
 # after commit 'can returns html',first add
 from selenium.webdriver.common.keys import Keys
 
-class NewVisitorTest(unittest.TestCase):
+#class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
 	def setUp(self):
 		self.browser = webdriver.Firefox()
 		self.browser.implicitly_wait(3)
@@ -41,7 +30,8 @@ class NewVisitorTest(unittest.TestCase):
 		self.assertIn(row_text,[row.text for row in rows])
 
 	def test_can_start_a_list_and_retrieve_it_later(self):
-		self.browser.get('http://54.199.137.210:8080')
+		#self.browser.get('http://54.199.137.210:8080')
+		self.browser.get(self.live_server_url)
 		# after commit 'can returns html',first add
 		header_text = self.browser.find_element_by_tag_name('h1').text
 		#self.assertIn('To-Do',self.browser.title)
@@ -63,7 +53,8 @@ class NewVisitorTest(unittest.TestCase):
 		inputbox.send_keys(Keys.ENTER)
 
 		# add sleep time
-		#time.sleep(10)
+		# now can remove sleep()
+		# time.sleep(10)
 
 		# refactor code (use helper method)
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
@@ -85,10 +76,6 @@ class NewVisitorTest(unittest.TestCase):
 		self.fail('finish the test!')
 		# she visits that url -- her to-do list is still there.
 		# rest of comments.
-if __name__ == '__main__':
-	# original is "unittest.main(warnings='ignore')"
-	#unittest.main()
-	unittest.main(warnings='ignore')
 
 
 		
