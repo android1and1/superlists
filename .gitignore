@@ -5,3 +5,4 @@ teststatic/index.html
 *.pyc
 __pycache__
 nohup.out
+its_*
