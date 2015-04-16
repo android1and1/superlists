@@ -6,7 +6,8 @@
 ## browser.get('http://54.199.137.210')
 #browser.get('http://54.199.137.210:8080')
 
-from django.test import LiveServerTestCase
+#from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 from selenium import webdriver 
 # now a new change:import builin module:unitest
@@ -15,12 +16,14 @@ import time
 from selenium.webdriver.common.keys import Keys
 
 #class NewVisitorTest(unittest.TestCase):
-class NewVisitorTest(LiveServerTestCase):
+#class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
 	def setUp(self):
 		self.browser = webdriver.Firefox()
 		self.browser.implicitly_wait(3)
 
 	def tearDown(self):
+		self.browser.refresh()
 		self.browser.quit()
 
 	# a helper method.
