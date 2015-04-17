@@ -1,23 +1,25 @@
 # not run this in acturely server! it is for client(installed python3 and selenium)
-# client must readied a test-professial tool,so server can 'from selenium import webdriver'.
-
-## because nginx+gunicorn involeds too many things(static,media,etc..)
-## so i decided use django's runserver first.
-## browser.get('http://54.199.137.210')
-#browser.get('http://54.199.137.210:8080')
-
-#from django.test import LiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
-
 from selenium import webdriver 
-# now a new change:import builin module:unitest
-import time
-# after commit 'can returns html',first add
 from selenium.webdriver.common.keys import Keys
+import sys
 
-#class NewVisitorTest(unittest.TestCase):
-#class NewVisitorTest(LiveServerTestCase):
 class NewVisitorTest(StaticLiveServerTestCase):
+
+	@classmethod
+	def setUpClass(cls):
+		for arg in sys.argv:
+			if 'liveserver' in arg:
+				cls.server_url = 'http://' + arg.split('=')[1]
+				return
+		super().setUpClass()
+		cls.server_url = cls.live_server_url
+	
+	@classmethod
+	def tearDownClass(cls):
+		if cls.server_url == cls.live_server_url:
+			super().tearDownClass()
+			
 	def setUp(self):
 		self.browser = webdriver.Firefox()
 		self.browser.implicitly_wait(3)
@@ -33,13 +35,12 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		self.assertIn(row_text,[row.text for row in rows])
 
 	def test_can_start_a_list_and_retrieve_it_later(self):
-		#self.browser.get('http://54.199.137.210:8080')
-		self.browser.get(self.live_server_url)
-		# after commit 'can returns html',first add
+		# Edith has heard about a cool new online to-do app.She goes
+		# to check out its homepage.
+		self.browser.get(self.server_url)
 		header_text = self.browser.find_element_by_tag_name('h1').text
 		#self.assertIn('To-Do',self.browser.title)
 
-		# after commit 'can returns html',first add
 		self.assertIn('To-Do',header_text)
 
 		# she is invited to enter a to-do lists 
@@ -58,11 +59,6 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		self.assertRegex(edith_list_url,'/lists/.+')  # intro of assertRegex
 
 
-		# add sleep time
-		# now can remove sleep()
-		# time.sleep(10)
-
-		# refactor code (use helper method)
 		self.check_for_row_in_list_table('1: Buy peacock feathers')
 
 		# there is still a text box inviting her to add another item.
@@ -89,22 +85,16 @@ class NewVisitorTest(StaticLiveServerTestCase):
 
 		# Francis visits the home page,There is no sign of Edith's 
 		# lists
-		self.browser.get(self.live_server_url)
+		self.browser.get(self.server_url)
 		page_text = self.browser.find_element_by_tag_name('body').text
 		self.assertNotIn('Buy peacock feathers',page_text)
 		self.assertNotIn('make a fly',page_text)
-
-		# for lanch (go to 'Shui Guo Hu')
-		#/////////////
 
 		# Francis starts a new list by entering a new item,He
 		# is less interesting than Edith...
 		inputbox = self.browser.find_element_by_id('id_new_item')
 		inputbox.send_keys('Buy milk')
 		inputbox.send_keys(Keys.ENTER)
-
-		#////////////////
-
 
 		# Francis gets his own unique URL
 		francis_list_url = self.browser.current_url
@@ -115,12 +105,11 @@ class NewVisitorTest(StaticLiveServerTestCase):
 		page_text = self.browser.find_element_by_tag_name('body').text
 
 
-
 		# Satisfied,they both go back to sleep
 
 	def test_layout_and_styling(self):
 		# Edith goes to the home page.
-		self.browser.get(self.live_server_url)
+		self.browser.get(self.server_url)
 		self.browser.set_window_size(1024,768)
 
 		# she notices the input box is nicely centered
