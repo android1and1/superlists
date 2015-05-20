@@ -1,6 +1,9 @@
 from .base import FunctionalTest
+
 class ItemValidationTest(FunctionalTest):
+
 	def test_cannot_add_empty_list_items(self):
+
 		# Edith goes to the home page and accidently tries to submit
 		# on empty list item.She hits Enter on the empty input box.
 		self.browser.get(self.server_url)
