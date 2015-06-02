@@ -1,8 +1,8 @@
 from django.test import TestCase
 from lists.forms import EMPTY_LIST_ERROR,ItemForm
-#from unittest import skip
+from unittest import skip
 class ItemFormTest(TestCase):
-#	@skip
+	@skip
 	def test_form_renders_item_text_input(self):
 		form = ItemForm()
 		self.fail(form.as_p())
