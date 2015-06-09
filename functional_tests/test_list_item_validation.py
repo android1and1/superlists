@@ -48,13 +48,12 @@ class ItemValidationTest(FunctionalTest):
 		# Edith starts a new list in a way that causes a validation error
 		self.browser.get(self.server_url)
 		self.get_item_input_box().send_keys('\n')
-		error = self.browser.find_element_by_css_selector('.has-error')
+		error = self.get_error_element()
 		self.assertTrue(error.is_displayed())
 
 		# She starts typing in the input box to clear the error
 		self.get_item_input_box().send_keys('a')
 
 		# She is pleased to see the error message disappears
-		#error = self.browser.find_element_by_css_selector('.has-error')
 		error = self.get_error_element()
 		self.assertFalse(error.is_displayed())
